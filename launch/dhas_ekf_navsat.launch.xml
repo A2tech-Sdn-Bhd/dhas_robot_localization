@@ -1,0 +1,40 @@
+<launch>
+  <!-- Launch Arguments -->
+  <arg name="output_final_position" default="false"/>
+  <arg name="output_location" default="~/dual_ekf_navsat_example_debug.txt"/>
+
+  <!-- ekf_filter_node_odom -->
+  <!-- <node
+      pkg="robot_localization"
+      exec="ekf_node"
+      name="ekf_filter_node_odom"
+      output="screen">
+    <param name="params_file" value="$(find-pkg-share robot_localization)/params/dual_ekf_navsat_example.yaml"/>
+    <remap from="odometry/filtered" to="odometry/local"/>
+  </node> -->
+
+  <!-- ekf_filter_node_map -->
+  <node
+      pkg="robot_localization"
+      exec="ekf_node"
+      name="ekf_filter_node_map"
+      output="screen">
+    <param name="params_file" value="$(find-pkg-share robot_localization)/params/dhas_ekf.yaml"/>
+    <remap from="/odometry/filtered" to="/odometry/global"/>
+  </node>
+
+  <!-- navsat_transform_node -->
+  <node
+      pkg="robot_localization"
+      exec="navsat_transform_node"
+      name="navsat_transform"
+      output="screen">
+    <param name="params_file" value="$(find-pkg-share robot_localization)/params/dhas_navsat_transform.yaml"/>
+    <remap from="imu/data" to="/imu/data"/>
+    <remap from="gps/fix" to="/gps/rover/fix"/>
+    <remap from="gps/filtered" to="/gps/filtered"/>
+    <remap from="odometry/gps" to="/odometry/gps"/>
+    <remap from="odometry/filtered" to="/odometry/global"/>
+  </node>
+
+</launch>

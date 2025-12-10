@@ -1,0 +1,92 @@
+# For parameter descriptions, please refer to the template parameter files for each node.
+
+# [ X,Y,Z,              # x, y, z || (position)
+#   roll,pitch,yaw,     # roll, pitch, yaw || (orientation)
+#   X˙,Y˙,Z˙,           # x velocity, y velocity, z velocity || (linear velocity)
+#   roll˙,pitch˙,yaw˙,  # roll velocity, pitch velocity, yaw velocity || (angular velocity)
+#   X¨,Y¨,Z¨         ]  # x acceleration, y acceleration, z acceleration || (linear acceleration)
+
+ekf_filter_node_map:
+  ros__parameters:
+    frequency: 30.0
+    sensor_timeout: 0.1
+    two_d_mode: true
+    transform_time_offset: 0.0
+    transform_timeout: 0.0
+    print_diagnostics: true
+    debug: false
+
+    map_frame: map
+    odom_frame: odom
+    base_link_frame: base_link
+    world_frame: map
+
+    odom0: /Odometry
+    odom0_config: [false, false, false,
+                  false, false, false,
+                  true,  true,  false,
+                  false, false, true,
+                  false, false, false]
+    odom0_queue_size: 10
+    odom0_nodelay: true
+    odom0_differential: false
+    odom0_relative: false
+
+    odom1: /odometry/gps
+    odom1_config: [true,  true,  false,
+                  false, false, false,
+                  false, false, false,
+                  false, false, false,
+                  false, false, false]
+    odom1_queue_size: 10
+    odom1_nodelay: true
+    odom1_differential: false
+    odom1_relative: false
+
+    imu0: /rtk_heading/imu
+    imu0_config: [false, false, false,
+                  false,  false,  true,
+                  false, false, false,
+                  false,  false,  false,
+                  false,  false,  false]
+    imu0_nodelay: true
+    imu0_differential: false
+    imu0_relative: false
+    imu0_queue_size: 10
+    imu0_remove_gravitational_acceleration: true
+
+    use_control: false
+
+    process_noise_covariance: [0.02, 0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+                              0.0,    0.02,  0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+                              0.0,    0.0,    1e-9,  0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+                              0.0,    0.0,    0.0,    1e-9,   0.0,    0.0,     0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+                              0.0,    0.0,    0.0,    0.0,    1e-9,   0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+                              0.0,    0.0,    0.0,    0.0,    0.0,    0.01,  0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+                              0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.2,    0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+                              0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.005,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+                              0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     1e-9,   0.0,    0.0,    0.0,    0.0,    0.0,    0.0,
+                              0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    1e-9,   0.0,    0.0,    0.0,    0.0,    0.0,
+                              0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    1e-9,   0.0,    0.0,    0.0,    0.0,
+                              0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.15,   0.0,    0.0,    0.0,
+                              0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    1e-9,   0.0,    0.0,
+                              0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    1e-9,   0.0,
+                              0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.1]
+
+    initial_estimate_covariance: [0.1,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,     0.0,    0.0,    0.0,
+                                  0.0,    0.1,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,     0.0,    0.0,    0.0,
+                                  0.0,    0.0,    1e-9,   0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,     0.0,    0.0,    0.0,
+                                  0.0,    0.0,    0.0,    1e-9,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,     0.0,    0.0,    0.0,
+                                  0.0,    0.0,    0.0,    0.0,    1e-9,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,     0.0,    0.0,    0.0,
+                                  0.0,    0.0,    0.0,    0.0,    0.0,    0.1,   0.0,    0.0,    0.0,    0.0,     0.0,     0.0,     0.0,    0.0,    0.0,
+                                  0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    10.0,    0.0,    0.0,    0.0,     0.0,     0.0,     0.0,    0.0,    0.0,
+                                  0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    10.0,    0.0,    0.0,     0.0,     0.0,     0.0,    0.0,    0.0,
+                                  0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    1e-9,    0.0,     0.0,     0.0,     0.0,    0.0,    0.0,
+                                  0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    1e-9,     0.0,     0.0,     0.0,    0.0,    0.0,
+                                  0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     1e-9,     0.0,     0.0,    0.0,    0.0,
+                                  0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     10.0,     0.0,    0.0,    0.0,
+                                  0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,     1e-9,    0.0,    0.0,
+                                  0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,     0.0,    1e-9,    0.0,
+                                  0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,    0.0,     0.0,     0.0,     0.0,    0.0,    1e-9]
+
+
