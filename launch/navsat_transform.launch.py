@@ -23,12 +23,31 @@ import launch.actions
 from launch.actions import DeclareLaunchArgument
 
 def generate_launch_description():
+    robot_localization_dir = get_package_share_directory('robot_localization')
+    parameters_file_dir = os.path.join(robot_localization_dir, 'params')
+    parameters_file_path = os.path.join(parameters_file_dir, 'dhas_dual_ekf_navsat.yaml')
+    os.environ['FILE_PATH'] = str(parameters_file_dir)
+    rviz_config_file = '/home/leggeed/dhas_dev_ws/src/dhas_nodes/rviz/localization.rviz'
     return LaunchDescription([
         launch_ros.actions.Node(
-            package='robot_localization',
-            executable='navsat_transform_node',
-            name='navsat_transform_node',
-            output='screen',
-            parameters=[os.path.join(get_package_share_directory("robot_localization"), 'params', 'navsat_transform.yaml')],
-           ),
+                package='robot_localization', 
+                executable='navsat_transform_node', 
+                name='navsat_transform',
+                output='screen',
+                parameters=[parameters_file_path],
+                remappings=[('imu', '/rtk_heading/imu'),
+                            ('gps/fix', 'gps/rover/fix'), 
+                            ('gps/filtered', 'gps/filtered'),
+                            ('odometry/gps', 'odometry/gps'),
+                            ('odometry/filtered', 'odometry/global')]           
+
+            ),
+        launch_ros.actions.Node(
+                package='rviz2',
+                executable='rviz2',
+                name='rviz2',
+                output='screen',
+                arguments=['-d',rviz_config_file],
+                parameters=[{'use_sim_time': True}]
+            )    
 ])

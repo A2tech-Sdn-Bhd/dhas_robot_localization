@@ -58,8 +58,8 @@ def generate_launch_description():
             name='navsat_transform',
 	        output='screen',
             parameters=[parameters_file_path],
-            remappings=[('imu', '/compass/imu'),
-                        ('gps/fix', 'gps/movingbase/fix'), 
+            remappings=[('imu', 'rtk_heading/imu'),
+                        ('gps/fix', 'gps/rover/fix'), 
                         ('gps/filtered', 'gps/filtered'),
                         ('odometry/gps', 'odometry/gps'),
                         ('odometry/filtered', 'odometry/global')]           
