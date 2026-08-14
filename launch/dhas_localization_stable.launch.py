@@ -26,7 +26,7 @@ def generate_launch_description():
     parameters_file_dir = os.path.join(robot_localization_dir, 'params')
     parameters_file_path = os.path.join(parameters_file_dir, 'dhas_localization_testing.yaml') #default: dhas_dual_ekf_navsat.yaml || for testing dhas_localization_testing.yaml
     os.environ['FILE_PATH'] = str(parameters_file_dir)
-    rviz_config_file = '/home/x3cator/mahmoud_dhas_dev_ws/src/mahmoud_dhas_nodes/rviz/localization.rviz'
+    rviz_config_file = '/home/x3cator/P25-021-ros-workspace/src/mahmoud_dhas_nodes/rviz/localization.rviz'
 
     return LaunchDescription([
         launch.actions.DeclareLaunchArgument(

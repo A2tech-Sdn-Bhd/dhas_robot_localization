@@ -315,7 +315,7 @@ All three load the same YAML and write to screen. There are no conditions. An RV
 Intended standalone DHAS GNSS transform plus RViz. It declares no launch arguments or conditions. It attempts to load `params/dhas_dual_ekf_navsat.yaml`, which is absent, then starts:
 
 - `navsat_transform_node` as `navsat_transform`, with remaps `imu -> /rtk_heading/imu`, `gps/fix -> gps/rover/fix`, `gps/filtered -> gps/filtered`, `odometry/gps -> odometry/gps`, and `odometry/filtered -> odometry/global`.
-- `rviz2` as `rviz2`, with `use_sim_time=true` and `-d /home/leggeed/dhas_dev_ws/src/dhas_nodes/rviz/localization.rviz`.
+- `rviz2` as `rviz2`, with `use_sim_time=true` and `-d /home/leggeed/P25-021-ros-workspace/src/dhas_nodes/rviz/localization.rviz`.
 
 The missing YAML and machine-specific RViz path prevent this launch file from being portable (`launch/navsat_transform.launch.py:25-51`).
 
