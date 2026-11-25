@@ -34,8 +34,11 @@ ekf_filter_node_odom:
     odom0_relative: false
 
     imu0: /imu/data
+    # Absolute yaw comes from FAST-LIO (/Odometry) only. The Xsens yaw is magnetometer-
+    # referenced (~100 deg off FAST-LIO, distorted indoors/near motors), and fusing both
+    # rotated FAST-LIO x,y. Global heading comes from RTK in ekf_filter_node_map.
     imu0_config: [false, false, false,
-                  true,  true,  true,
+                  true,  true,  false,
                   false, false, false,
                   true,  true,  true,
                   true,  true,  false]
